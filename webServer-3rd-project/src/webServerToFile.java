@@ -1,10 +1,12 @@
-import java.util.*;
-import java.util.Scanner;
+//import java.util.*;
+//import java.util.Scanner;
+//import java.util.stream.Stream;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.temporal.Temporal;
-import java.nio.file.Files;
+//import java.time.temporal.Temporal;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
 
 public class webServerToFile extends Thread {
 
@@ -14,7 +16,9 @@ public class webServerToFile extends Thread {
 		
 		try {
 		Socket n = new Socket();
-		while(!s.isClosed()) {
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(n.getInputStream()));
+		while(in.readLine() != null) {
 				n = s.accept(); }} catch(IOException exc) {
 				exc.printStackTrace();
 			}
@@ -23,9 +27,9 @@ public class webServerToFile extends Thread {
 	
 	public static void main(String[] args) throws IOException {
 		
-		//Implement Socket Listener with specified socket #?
+		
 		try {
-		ServerSocket ss = new ServerSocket(25);
+		ServerSocket ss = new ServerSocket(8080);
 		Socket n = new Socket();
 		Thread serv = new Thread();
 		serv = serverHandler(ss);
@@ -80,15 +84,28 @@ public class webServerToFile extends Thread {
 		exc.printStackTrace();
 	}
 	
-		
 		try {
 			//Reading Socket Input/Connection Status + Writing to File
+			Socket s1 = new Socket();
+			PrintWriter out = new PrintWriter(s1.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
+			//BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
 			FileOutputStream fos = new FileOutputStream("socketTraffic.txt");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject("socketTraffic.txt");
+			 /*try{
+				 Stream<String> webPage = Files.readAllLines(Path.of(Stream.generate(s)).forEach(oos.writeObject("socketTraffic.txt")));
+				 }finally {
+					 s.close();
+				 }*/
+			if(in != null) {
+			oos.writeObject(out);
+			}
 			oos.flush();
+			oos.close();
+			s1.close();
 			}catch(IOException exc) {
 				exc.printStackTrace();
 			}
+			
 	}
 }
