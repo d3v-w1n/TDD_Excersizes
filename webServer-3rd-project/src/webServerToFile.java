@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.temporal.Temporal;
+import java.nio.file.Files;
 
 public class webServerToFile extends Thread {
 
@@ -34,7 +35,17 @@ public class webServerToFile extends Thread {
 		}catch(IOException exc) {
 			exc.printStackTrace();
 		}
-		
+		/*using Files library to transfer information to auto-generated file w/FILEIOSTREAM
+		 * try{
+		 * Stream<String> webPage = Files.lines(Path.of(-webSeverStream-));
+		 * 						also - 	.readAllLines(Path.of(-webSeverStream-));
+		 * lines.forEach(System.out::println); -- will be revised for INPUT.OUTPUTSTREAM .TXT / .CSV FILE
+		 * }
+		 * 
+		 * BUFFEREDREADER webPage = new BufferedReader(Path.of(-webSeverStream-));
+		 * Stream<String> wPBR = webPage.lines();
+		 * wPBR.forEach(System.out::println);
+		 */
 		}
 	
 	public final static Thread serverHandler(ServerSocket s) {
