@@ -1,12 +1,13 @@
-//import java.util.*;
-//import java.util.Scanner;
+import java.util.*;
 //import java.util.stream.Stream;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-//import java.time.temporal.Temporal;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.temporal.Temporal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 public class webServerToFile extends Thread implements Serializable{
@@ -25,7 +26,7 @@ public class webServerToFile extends Thread implements Serializable{
 				exc.printStackTrace();
 			}
 				
-				}
+	}
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -51,7 +52,7 @@ public class webServerToFile extends Thread implements Serializable{
 		 * Stream<String> wPBR = webPage.lines();
 		 * wPBR.forEach(System.out::println);
 		 */
-		}
+	}
 	
 	public final static Thread serverHandler(ServerSocket s) {
 		try {
@@ -78,15 +79,18 @@ public class webServerToFile extends Thread implements Serializable{
 		}
 	}
 	
-	//Get socket # to listen with socketNum()
-	//Implement Socket Listener with specified socket #?
 public static void readOutServer(Socket s1) {	
 	try {
-	String pathFile = Pattern.compile(s1.getInetAddress().getHostAddress()).toString();
-	PrintWriter out = new PrintWriter(s1.getOutputStream(), true);
+	String pathDir = Pattern.compile(s1.getInetAddress().getHostAddress()).toString();
+	String PathTree = ""; 
+	String filename = pathDir.concat(LocalDate.now().toString().concat(".txt"));
+	//File directory = new File(PathTree);
+	//PrintWriter out = new PrintWriter(s1.getOutputStream(), true);
+	//directory.mkdirs();
+	Files.createDirectories(Paths.get(filename));
 	BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
-	BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
-	FileOutputStream fos = new FileOutputStream(pathFile);
+	//BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
+	FileOutputStream fos = new FileOutputStream(pathDir + PathTree + filename);
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
 	if(in != null) {
 		oos.writeFields();
