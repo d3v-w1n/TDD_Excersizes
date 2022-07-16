@@ -8,18 +8,19 @@ import java.net.Socket;
 //import java.nio.file.Files;
 //import java.nio.file.Path;
 
-public class webServerToFile extends Thread {
+public class webServerToFile extends Thread implements Serializable{
 
 
 	//run() method call to constructor + while loop
-	public void run(ServerSocket s) {
+	public static void run(ServerSocket s) {
 		
 		try {
 		Socket n = new Socket();
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(n.getInputStream()));
-		while(in.readLine() != null) {
-				n = s.accept(); }} catch(IOException exc) {
+		while(in.readLine() == null) {
+				n = s.accept(); System.out.println("Connection Established Bug III" + n.toString());
+				}} catch(IOException exc) {
 				exc.printStackTrace();
 			}
 				
@@ -31,11 +32,11 @@ public class webServerToFile extends Thread {
 		try {
 		ServerSocket ss = new ServerSocket(8080);
 		Socket n = new Socket();
-		Thread serv = new Thread();
+		Thread serv = new webServerToFile();
 		serv = serverHandler(ss);
-		serv.start();
 		System.out.println("Connection Established" + n.toString());
-		n.close();
+		readOutServer(n);
+		//n.close();
 		}catch(IOException exc) {
 			exc.printStackTrace();
 		}
@@ -56,35 +57,53 @@ public class webServerToFile extends Thread {
 		try {
 			newHandler(s);
 			System.out.printf("%s%n", "Establishing Connection - - -");
-		}catch(IOException exc) {
+			}catch(IOException exc) {
 		exc.printStackTrace();
 		}
-		return serverHandler(s);
+		System.out.printf("%s%n", "Bug Tester II");
+		return null;
 	}
 	
 	public static void newHandler(ServerSocket s) throws IOException {
 		try {
-		s.accept();
+		webServerToFile.run(s);
+		System.out.printf("%s%n", "Bug Tester");
+		Socket newSocket = new Socket();
+		while(newSocket.getInetAddress() == null) {
+			newSocket = s.accept(); System.out.println("Connection Established  " + newSocket.toString());
+			readOutServer(newSocket);
+			newSocket.close();
+			}
 		}catch(IOException exc) {
 			exc.printStackTrace();
 		}
-	
+	}
 	
 	//Get socket # to listen with socketNum()
 	//Implement Socket Listener with specified socket #?
+public static void readOutServer(Socket s1) {	
 	try {
-	Socket s1 = new Socket();//socketHost(), socketNum());
+	//socketHost(), socketNum());
 	PrintWriter out = new PrintWriter(s1.getOutputStream(), true);
 	BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
 	BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
+	FileOutputStream fos = new FileOutputStream("socketTraffic.txt");
+	ObjectOutputStream oos = new ObjectOutputStream(fos);
+	if(in != null) {
+		oos.writeFields();
+		}
+		oos.flush();
+		oos.close();
+		s1.close();
+		/*
 	while(streamIn.readLine() != null) {
 		out.println();
 		System.out.println("echo: " + in.readLine());
-	}}catch(IOException exc) {
+	}*/}catch(IOException exc) {
 		exc.printStackTrace();
 	}
 	
-		try {
+		/*try {
 			//Reading Socket Input/Connection Status + Writing to File
 			Socket s1 = new Socket();
 			PrintWriter out = new PrintWriter(s1.getOutputStream(), true);
@@ -96,7 +115,7 @@ public class webServerToFile extends Thread {
 				 Stream<String> webPage = Files.readAllLines(Path.of(Stream.generate(s)).forEach(oos.writeObject("socketTraffic.txt")));
 				 }finally {
 					 s.close();
-				 }*/
+				 }
 			if(in != null) {
 			oos.writeObject(out);
 			}
@@ -105,7 +124,7 @@ public class webServerToFile extends Thread {
 			s1.close();
 			}catch(IOException exc) {
 				exc.printStackTrace();
-			}
-			
+			}*/
+		}
 	}
-}
+
