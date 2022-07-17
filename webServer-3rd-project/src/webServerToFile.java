@@ -1,6 +1,7 @@
 import java.util.*;
 //import java.util.stream.Stream;
 import java.io.*;
+import java.net.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Pattern;
+import java.nio.file.InvalidPathException;
 
 public class webServerToFile extends Thread implements Serializable{
 
@@ -82,18 +84,25 @@ public class webServerToFile extends Thread implements Serializable{
 public static void readOutServer(Socket s1) {	
 	try {
 	String pathDir = Pattern.compile(s1.getInetAddress().getHostAddress()).toString();
-	String PathTree = ""; 
-	String filename = pathDir.concat(LocalDate.now().toString().concat(".txt"));
-	//File directory = new File(PathTree);
+	System.out.printf("%s%S%n", "Bug Tester IV ", pathDir);
+	String PathTree = new URL(pathDir).toString(); 
+	System.out.printf("%s%S%n", "Bug Tester V ", PathTree);
+	String fn = new File(pathDir).getName();
+	System.out.printf("%s%s%n", "Bug Tester VI ", fn);
+	String filename = PathTree.concat(LocalDate.now().toString().concat(".txt"));
+	System.out.printf("%s%S%n", "Bug Tester VII ", filename);
+	File directory = new File(PathTree);
 	//PrintWriter out = new PrintWriter(s1.getOutputStream(), true);
-	//directory.mkdirs();
-	Files.createDirectories(Paths.get(filename));
+	if (!directory.exists()) directory.mkdirs();
+	Files.createDirectories(Paths.get(filename)).toFile(); //.toFile();
 	BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
-	//BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
-	FileOutputStream fos = new FileOutputStream(pathDir + PathTree + filename);
+	BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
+	FileOutputStream fos = new FileOutputStream(PathTree + filename);
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
 	if(in != null) {
-		oos.writeFields();
+		String autogentext = "New File Created From Simple Server Connection";
+		Files.writeString(Paths.get(filename), autogentext);
+		//oos.writeFields();
 		}
 		oos.flush();
 		oos.close();
@@ -107,6 +116,11 @@ public static void readOutServer(Socket s1) {
 				 }finally {
 					 s.close();
 				 }
+				 public static Path createFileWithDir(String directory, String filename) {
+        File dir = new File(directory);
+        if (!dir.exists()) dir.mkdirs();
+        return Paths.get(directory + File.separatorChar + filename);
+    }
 			if(in != null) {
 			oos.writeObject(out);
 			}
