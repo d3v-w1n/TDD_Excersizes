@@ -59,7 +59,7 @@ public class webServerToFile extends Thread implements Serializable{
 	
 	public static String ParseIP(String inputIP)
 	{
-	inputIP=inputIP.split(":")[1];
+	inputIP=inputIP.split(":")[0];
 	Matcher matcher = Pattern.compile("(:[^:]+:)(:[^:]+:)\\.([^.]+)").matcher(inputIP);
 	while (matcher.find()) {
 	     System.out.println(matcher.group().replaceAll("\\:", "/"));
@@ -130,17 +130,18 @@ public static void readOutServer(Socket s1) {
 	Files.createDirectories(Paths.get(filename)).toFile(); //.toFile();
 	directory.createNewFile();
 	String autotext = "New File Created From Simple Server Connection";
-	PrintWriter out = new PrintWriter(directory + ".txt", autotext);
+	PrintWriter out = new PrintWriter(directory + ".txt");
 	out.print(autotext); out.close();
 	//BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
 	//BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
-	FileOutputStream fos = new FileOutputStream(workingDir + filename);
+	FileOutputStream fos = new FileOutputStream(workingDir + filename + ".txt");
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
-	if(filename != null) {
+	/*if(filename != null) {
 		String autogentext = "New File Created From Simple Server Connection";
-		Files.writeString(Paths.get(filename), autogentext);
+		out.println(autogentext); out.close();
+		//Files.writeString(Paths.get(filename + ".txt"), autogentext);
 		//oos.writeFields();
-		}
+		}*/
 		oos.flush();
 		oos.close();
 		s1.close();
