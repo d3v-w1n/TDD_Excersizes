@@ -132,6 +132,7 @@ public static void readOutServer(Socket s1) {
 	String autotext = "New File Created From Simple Server Connection";
 	PrintWriter out = new PrintWriter(directory + ".txt");
 	out.print(autotext); out.close();
+	//Files.write(Paths.get(filename), Arrays.asList(autotext, " Auto Generated Text"));
 	//BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
 	//BufferedReader streamIn = new BufferedReader(new InputStreamReader(System.in));
 	FileOutputStream fos = new FileOutputStream(workingDir + filename + ".txt");
