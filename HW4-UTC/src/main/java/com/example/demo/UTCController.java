@@ -2,10 +2,13 @@ package com.example.demo;
 
 import java.time.Instant;
 import java.lang.String;
+
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Component
 public class UTCController {
 
 	//http://localhost:8080/UTC

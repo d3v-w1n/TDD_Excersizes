@@ -5,13 +5,17 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Timezone {
 
 	
 	public String utcOutput;
 	
-	public Timezone(){
-			//temporal import or LocalTime method call
+	public Timezone(String testcase) {
+			//temporal import or LocalTime method call 
+		getUtcOutput(testcase);
 	}
 
 	public ZonedDateTime getZoneDateTime() {
@@ -20,6 +24,7 @@ public class Timezone {
 	}
 	
 	public String getUtcOutput() {
+		utcOutput = this.utcOutput;
 		return utcOutput;
 	}
 	

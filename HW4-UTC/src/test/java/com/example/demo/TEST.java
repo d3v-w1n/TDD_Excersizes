@@ -1,52 +1,56 @@
 package com.example.demo;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.ZoneId;
 import java.time.Instant;
-import java.util.Set;
-import java.util.Random;
-import java.util.ArrayList;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Random;
+import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Assertions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-	
+@SuppressWarnings({ "unlikely-arg-type"})
+@ContextConfiguration(classes = {TimezoneController.class })
+@WebAppConfiguration
 
 class TEST {
 
 	@Autowired
-	Timezone testOutput;
+	
 	Random rand = new Random();
-	Set<String> testZone = ZoneId.getAvailableZoneIds();
+	/*Set<String> testZone = ZoneId.getAvailableZoneIds();
 	String[] testArray = testZone.toString().split(", ");
 	//for(zone : Set<String> ZoneId.getAvailableZoneIds() = testArray);
-	
-	//set equal to random sequence of ints from testArray.length() 
+	//set equal to random sequence of ints from testArray.length()
 	int maxArray = testArray.length;
 	int ranZone = rand.nextInt(maxArray);
+	Timezone testOutput = new Timezone(testArray[ranZone]);
+	*/
+	int zoneNum = rand.nextInt(14);
+	String testZone = "+" + zoneNum;
+	String testGMT = "-4";
+	Timezone testOutput = new Timezone(testZone);
+	UTCController testUtc = new UTCController();
 	
 	@Test
 	void testExists() {
-		assert(testOutput.getUtcOutput() !=null); 
+		assert(testOutput.getUtcOutput() !=null);
 }
 
+	
 	@Test
 	void testMatches() {
-		assert(testOutput.getUtcOutput().equals(Instant.now())); 
-	}	
-	
+		assert(testUtc.UtcGet().equals(ZoneOffset.of(testGMT).toString()));
+	}
+
 	@Test
 	void testMultiple() {
-		
-		assert(testOutput.getUtcOutput().contains(testArray[ranZone])); 
-	}	
-	
-}	
+
+		assert(testOutput.getUtcOutput().contains(ZoneOffset.of(testZone).toString()));
+	}
+
+}
