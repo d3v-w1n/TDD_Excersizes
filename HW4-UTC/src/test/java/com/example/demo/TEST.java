@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -39,12 +40,12 @@ class TEST {
 	@Test
 	void testExists() {
 		assert(testOutput.getUtcOutput() !=null);
-}
+	 }
 
 	
 	@Test
 	void testMatches() {
-		assert(testUtc.UtcGet().equals(ZoneOffset.of(testGMT).toString()));
+		assert(ZonedDateTime.now().getOffset().equals(ZoneOffset.of(testGMT)));
 	}
 
 	@Test
