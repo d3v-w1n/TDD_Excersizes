@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
-import java.util.Set;
+//import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -30,7 +30,7 @@ public interface TransactionsRepository extends CrudRepository<Transaction, Long
 	public void submitNewTransaction(Transaction transactionToSubmit);
 	@Transactional
 	@Modifying
-	@Query ("update Transaction sourceAccountId set date = CURRENT_TIMESTAMP")
-	public void startBatchProcessing(Date date);
+	@Query ("update Transaction sourceAccountId set batchDate = CURRENT_TIMESTAMP")
+	public void startBatchProcessing(Date batchDate);
 	
 }

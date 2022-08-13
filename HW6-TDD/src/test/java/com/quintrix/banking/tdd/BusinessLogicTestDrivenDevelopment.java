@@ -26,6 +26,7 @@ public class BusinessLogicTestDrivenDevelopment {
 	AccountsRepository accountsDb;
 	@Autowired
 	TransactionsRepository transactionsDb;
+
 	String testerLocation = null;
 	long testId;
 	
@@ -55,6 +56,7 @@ public class BusinessLogicTestDrivenDevelopment {
 	
 	@Test
 	public void canFindAccountById() {
+		//Account testAccount = makeAccount("General Zod");//Added line into Testing - SEPARATE JPA REPOS REQUESTED
 		//  ** If auto ID generation created an issue with specifying an ID then this test will need to first locate a valid account ID before performing this search
 		Account testAccount = accountsDb.findAccountById(testId);
 		assert(testAccount != null);
@@ -62,8 +64,8 @@ public class BusinessLogicTestDrivenDevelopment {
 	
 	@Test
 	public void canFindAccountByName() {
-		Account testAccount = makeAccount("General Zod");
-		accountsDb.findAccountByOwnerName("Zod, General");
+		//Account testAccount = makeAccount("General Zod");
+		Account testAccount = accountsDb.findAccountByOwnerName("Zod, General");
 		assert(testAccount != null);
 	}
 	
@@ -142,5 +144,4 @@ public class BusinessLogicTestDrivenDevelopment {
 		testAccount.ownerName = owner;
 		return testAccount;
 	}
-	
 }
