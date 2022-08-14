@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public class AccountsRepository {
 //public interface AccountsRepository extends CrudRepository<Account, Long>  {
 
-	public List<Account> accountList = new ArrayList<>();
+	public static List<Account> accountList = new ArrayList<>();
 	
 	//@Query ("select a from Account a where location = name")
 	public Account findAccountByOwnerName(String location) {
@@ -59,7 +59,7 @@ public class AccountsRepository {
 	}
 	@Transactional
 	@Modifying
-	@Query ("update Account updatedAccount set ownerName = updatedAccount.ownerName")
+	@Query ("select a from Account a where updatedAccount.ownerName = name")
 	public void updateAccount(Account updatedAccount) {
 	}
 	
