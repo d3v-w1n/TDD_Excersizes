@@ -15,7 +15,7 @@ public class Branch extends DataModel {
 	public long id;	
 
 	public String location;
-	@OneToMany(mappedBy="id")
+	@OneToMany
 	public Set<Account> accounts;
 	
 }
